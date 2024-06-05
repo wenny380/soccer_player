@@ -7,8 +7,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import traceback
 import pandas as pd
+import json
 
-links = ['https://fbref.com/en/matches/13878f62/Le-Havre-Lyon-September-15-2023-Division-1-Feminine',
+"""links = ['https://fbref.com/en/matches/13878f62/Le-Havre-Lyon-September-15-2023-Division-1-Feminine',
          'https://fbref.com/en/matches/da74f2fe/Paris-Saint-Germain-Lyon-October-1-2023-Division-1-Feminine',
          'https://fbref.com/en/matches/c577e576/Lyon-Bordeaux-October-8-2023-Division-1-Feminine',
          'https://fbref.com/en/matches/78027557/Lyon-Saint-Etienne-October-14-2023-Division-1-Feminine',
@@ -23,7 +24,10 @@ links = ['https://fbref.com/en/matches/13878f62/Le-Havre-Lyon-September-15-2023-
          'https://fbref.com/en/matches/af4b1ba3/Lyon-Brann-December-13-2023-Champions-League',
          'https://fbref.com/en/matches/7ebb0d27/Fleury-Lyon-December-16-2023-Division-1-Feminine',
          'https://fbref.com/en/matches/db4a3116/Brann-Lyon-December-21-2023-Champions-League',
-         'https://fbref.com/en/matches/cd755028/Barcelona-Lyon-May-25-2024-Champions-League']
+         'https://fbref.com/en/matches/cd755028/Barcelona-Lyon-May-25-2024-Champions-League'] """
+
+with open("match_link.json", 'r') as f:
+    links = json.load(f)
 
 columns=['Player', 'Pos', 'Age', 'Min', 'Gls', 'Ast', 'Sh', 'SoT', 'CrdY', 'CrdR', 'Touches', 'Tkl', 'Int',
              'Blocks', 'SCA', 'GCA', 'Cmp', 'Att', 'cpm%', 'PrgP', 'PrgC', 'TOatt', 'TOsucc']
@@ -51,7 +55,7 @@ driver.set_page_load_timeout(90)
 try:
     for link in links:
         driver.get(link)
-        players = WebDriverWait(driver, 60).until(
+        players = WebDriverWait(driver, 90).until(
             EC.presence_of_all_elements_located((By.XPATH, '//th[@data-stat="player"]'))
         )
         # extract player names
